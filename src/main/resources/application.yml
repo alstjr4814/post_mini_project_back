@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: local
+    group:
+      local: common, secret
+
+---
+
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+springdoc:
+  swagger-ui:
+    path: doc
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.korit.springboot.entity
