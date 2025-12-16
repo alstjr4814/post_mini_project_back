@@ -20,4 +20,4 @@ mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-  type-aliases-package: com.korit.springboot.entity
+  type-aliases-package: com.korit.post_mini_project_back.entity

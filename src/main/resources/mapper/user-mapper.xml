@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.post_mini_project_back.mapper.UserMapper">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
+        insert into user_tb
+        values (default, #{oauth2Id}, #{nickname}, #{name}, #{email}, #{provider}, #{role}, #{imgUrl}, #{imgFilePath}, now())
+    </insert>
+    <select id="findByUserId" resultType="com.korit.post_mini_project_back.entity.User">
+        select
+            user_id,
+            oauth2_id,
+            nickname,
+            name,
+            email,
+            provider,f
+            role,
+            img_url,
+            img_file_path,
+            created_at
+        from
+            user_tb
+        where
+            user_id = #{userId}
+
+    </select>
+    <select id="findByOauth2Id" resultType="com.korit.post_mini_project_back.entity.User">
+        select
+            user_id,
+            oauth2_id,
+            nickname,
+            name,
+            email,
+            provider,
+            role,
+            img_url,
+            img_file_path,
+            created_at
+        from
+            user_tb
+        where
+            oauth2_id = #{oauth2Id}
+    </select>
+    <select id="findByNickname" resultType="com.korit.post_mini_project_back.entity.User">
+        select
+            user_id,
+            oauth2_id,
+            nickname,
+            name,
+            email,
+            provider,
+            role,
+            img_url,
+            img_file_path,
+            created_at
+        from
+            user_tb
+        where
+            nickname = #{nickname}
+    </select>
+    <select id="createNickname" resultType="java.lang.String">
+        select
+            concat(
+                (select
+                    word as adjective_word
+                from
+                    nickname_words_tb
+                where
+                    word_type = 'adjective'
+                order by
+                    rand()
+                limit 0, 1),
+                (select
+                    word as noun_word
+                from
+                    nickname_words_tb
+                where
+                    word_type = 'noun'
+                order by
+                    rand()
+                limit 0, 1)) as nickname;
+    </select>
+</mapper>
+

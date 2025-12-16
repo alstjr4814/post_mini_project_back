@@ -15,9 +15,12 @@ public class User {
     private int userId;
     private String oauth2Id;
     private String nickname;
-    private String email;
     private String name;
-    private LocalDateTime createdAt;
+    private String email;
+    private String provider;
     private String role;
+    private String imgUrl;
+    private String imgFilePath;
+    private LocalDateTime createdAt;
 
 }
