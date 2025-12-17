@@ -1,8 +1,8 @@
 package com.korit.post_mini_project_back.filter;
 
-
 import com.korit.post_mini_project_back.entity.User;
 import com.korit.post_mini_project_back.jwt.JwtTokenProvider;
+import com.korit.post_mini_project_back.mapper.UserMapper;
 import com.korit.post_mini_project_back.security.PrincipalUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-//    private final UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -36,15 +36,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
         String accessToken = bearerToken.replaceAll("Bearer ", "");
-        if (!jwtTokenProvider.validateToken(accessToken)) {
+
+        if(!jwtTokenProvider.validateToken(accessToken)) {
             filterChain.doFilter(request, response);
             return;
         }
 
         int userId = jwtTokenProvider.getUserId(accessToken);
-        User foundUser = null;
+        User foundUser = userMapper.findByUserId(userId);
+
         if (foundUser == null) {
             filterChain.doFilter(request, response);
             return;
@@ -54,10 +55,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         PrincipalUser principalUser = new PrincipalUser(authorities, Map.of("id", foundUser.getOauth2Id()), "id", foundUser);
         String password = "";
 
-        UsernamePasswordAuthenticationToken authentication =
+        UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(principalUser, password, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
-    }
 
+    }
 }

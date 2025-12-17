@@ -15,7 +15,7 @@
             nickname,
             name,
             email,
-            provider,f
+            provider,
             role,
             img_url,
             img_file_path,
