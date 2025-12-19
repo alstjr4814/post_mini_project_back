@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.korit.post_mini_project_back.mapper.ImageFileMapper">
+
+    <insert id="insertToMany" useGeneratedKeys="true" keyProperty="imageFileId" parameterType="arraylist">
+        insert into image_file_tb
+        values
+        <foreach item="file" collection="files" separator=",">
+            (default, #{file.category}, #{file.originalFilename}, #{file.filePath}, #{file.extension}, #{file.size}, now(), #{file.referenceId})
+        </foreach>
+    </insert>
+</mapper>
