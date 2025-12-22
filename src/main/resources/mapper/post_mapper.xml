@@ -5,8 +5,76 @@
 
 <mapper namespace="com.korit.post_mini_project_back.mapper.PostMapper">
 
+    <resultMap id="postResultMap" type="Post">
+        <id property="postId" column="post_id" />
+        <result property="content" column="content" />
+        <result property="visibility" column="visibility" />
+        <result property="userId" column="pt_user_id" />
+        <result property="createdAt" column="created_at" />
+        <association property="user" resultMap="userResultMap" />
+        <collection property="imageFiles" resultMap="imageFileResultMap" />
+    </resultMap>
+
+    <resultMap id="userResultMap" type="User">
+        <id property="userId" column="user_id" />
+        <result property="nickname" column="nickname" />
+        <result property="imgUrl" column="img_url" />
+    </resultMap>
+
+    <resultMap id="imageFileResultMap" type="imageFile">
+        <id property="imageFileId" column="image_file_id" />
+        <result property="filePath" column="file_path" />
+    </resultMap>
+
+    <resultMap id="followResultMap" type="Follow">
+        <id property="followerId" column="follow_id" />
+        <result property="followerId" column="follower)id" />
+        <result property="followingId" column="following_id" />
+    </resultMap>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="postId">
-            insert into post_tb
-            values (default, #{content}, #{visibility}, #{userId}, now())
+        insert into post_tb
+        values (default, #{content}, #{visibility}, #{userId}, now())
     </insert>
+    <select id="getFeeds" resultMap="postResultMap">
+        with temp_post_tb as
+        (select
+            pt.post_id,
+            pt.content,
+            pt.visibility,
+            pt.user_id as pt_user_id,
+            pt.created_at,
+
+            ut.user_id,
+            ut.nickname,
+            ut.img_url,
+
+            ft.follow_id,
+            ft.follower_id,
+            ft.following_id
+
+        from
+            post_tb pt
+            left outer join user_tb ut on ut.user_id =  pt.user_id
+            left outer join follow_tb ft on ft.following_id = pt.user_id
+
+        where
+            ft.follower_id = #{userId}
+        limit #{startIndex}, #{size})
+
+        select
+            *
+        from
+            temp_post_tb tpt
+            left outer join image_file_tb ift on ift.reference_id = tpt.post_id and ift.category = 'post'
+    </select>
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            post_tb pt
+            left outer join follow_tb ft on ft.following_id = pt.user_id
+        where
+            ft.follower_id = #{userId}
+    </select>
 </mapper>

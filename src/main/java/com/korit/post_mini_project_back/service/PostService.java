@@ -1,10 +1,14 @@
 package com.korit.post_mini_project_back.service;
 
 import com.korit.post_mini_project_back.dto.request.CreatePostReqDto;
+import com.korit.post_mini_project_back.dto.request.GetFeedListReqDto;
+import com.korit.post_mini_project_back.dto.response.PaginationRespDto;
 import com.korit.post_mini_project_back.entity.ImageFile;
 import com.korit.post_mini_project_back.entity.Post;
+import com.korit.post_mini_project_back.entity.User;
 import com.korit.post_mini_project_back.mapper.ImageFileMapper;
 import com.korit.post_mini_project_back.mapper.PostMapper;
+import com.korit.post_mini_project_back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,4 +35,20 @@ public class PostService {
         imageFileMapper.insertToMany(files);
     }
 
+    public PaginationRespDto<Post> getFeeds(GetFeedListReqDto dto) {
+        int size = dto.getSize();
+        int startIndex = (dto.getCurrentPage() - 1) * size;
+        User user = PrincipalUser.getAuthenticatedPrincipalUser().getUser();
+        List<Post> feeds = postMapper.getFeeds(startIndex, size, user.getUserId());
+        int totalElements = postMapper.getTotalCount(user.getUserId());
+        int totalPages = (int) Math.ceil(((double)totalElements) / size);
+        return PaginationRespDto.<Post> builder()
+                .contents(feeds)
+                .currentPage(dto.getCurrentPage())
+                .size(size)
+                .totalElements(totalElements)
+                .totalPages(totalPages)
+                .isLast(dto.getCurrentPage() == totalPages)
+                .build();
+    }
 }
