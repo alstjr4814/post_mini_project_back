@@ -1,6 +1,7 @@
 package com.korit.post_mini_project_back.security;
 
 import com.korit.post_mini_project_back.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,16 @@ public class PrincipalUser extends DefaultOAuth2User {
 
     public static PrincipalUser getAuthenticatedPrincipalUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-         PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
+        PrincipalUser principalUser = (PrincipalUser) authentication.getPrincipal();
         return principalUser;
     }
 }
+
+
+
+
+
+
+
+
+

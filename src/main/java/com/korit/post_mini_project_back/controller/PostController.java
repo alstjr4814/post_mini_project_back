@@ -17,12 +17,12 @@ public class PostController {
 
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createPost(@ModelAttribute CreatePostReqDto dto) {
-        System.out.println(dto);
         postService.createPost(dto);
         return ResponseEntity.ok(null);
     }
+
     @GetMapping("/feeds")
-    public  ResponseEntity<?> getFeedList(GetFeedListReqDto dto) {
+    public ResponseEntity<?> getFeedList(GetFeedListReqDto dto) {
         return ResponseEntity.ok(postService.getFeeds(dto));
     }
 }

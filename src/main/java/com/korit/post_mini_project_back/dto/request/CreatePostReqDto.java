@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 public class CreatePostReqDto {
-
     private String visibility;
     private String content;
     private List<MultipartFile> files;
@@ -19,12 +18,18 @@ public class CreatePostReqDto {
         int userId = PrincipalUser.getAuthenticatedPrincipalUser().getUser().getUserId();
 
         return Post.builder()
-                .visibility(visibility)
                 .content(content)
+                .visibility(visibility)
                 .userId(userId)
                 .build();
     }
-
-
-
 }
+
+
+
+
+
+
+
+
+

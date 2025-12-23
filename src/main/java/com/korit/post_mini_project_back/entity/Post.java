@@ -10,10 +10,9 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Post {
-
     private int postId;
     private String content;
     private String visibility;

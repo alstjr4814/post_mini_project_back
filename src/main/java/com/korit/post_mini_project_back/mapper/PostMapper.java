@@ -13,6 +13,5 @@ public interface PostMapper {
             @Param("startIndex") int startIndex,
             @Param("size") int size,
             @Param("userId") int userId);
-
     int getTotalCount(@Param("userId") int userId);
 }

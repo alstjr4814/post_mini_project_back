@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ImageFile {
-
     private int imageFileId;
     private String category;
     private String originalFilename;
@@ -21,5 +20,4 @@ public class ImageFile {
     private long size;
     private LocalDateTime createdAt;
     private int referenceId;
-
 }

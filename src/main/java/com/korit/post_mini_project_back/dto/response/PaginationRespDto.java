@@ -18,5 +18,4 @@ public class PaginationRespDto<T> {
     private int currentPage;
     private int size;
     private boolean isLast;
-
 }

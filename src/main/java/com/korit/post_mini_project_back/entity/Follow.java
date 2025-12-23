@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Follow {
     private int followId;
     private int followerId;
-    private  int followingId;
+    private int followingId;
 }
