@@ -2,11 +2,14 @@ package com.korit.post_mini_project_back.service;
 
 import com.korit.post_mini_project_back.dto.request.CreatePostCommentReqDto;
 import com.korit.post_mini_project_back.entity.Comment;
+import com.korit.post_mini_project_back.entity.CustomComment;
 import com.korit.post_mini_project_back.entity.User;
 import com.korit.post_mini_project_back.mapper.CommentMapper;
 import com.korit.post_mini_project_back.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,5 +26,9 @@ public class CommentService {
                         .userId(user.getUserId())
                         .content(dto.getContent())
                         .build());
+    }
+
+    public List<CustomComment> getComments(int postId) {
+        return commentMapper.findAllCommentByPostId(postId);
     }
 }

@@ -18,4 +18,9 @@ public class CommentController {
         commentService.createComment(postId, dto);
         return ResponseEntity.ok("댓글 작성 완료");
     }
+
+    @GetMapping
+    public ResponseEntity<?> getComments(@PathVariable int postId) {
+        return ResponseEntity.ok(commentService.getComments(postId));
+    }
 }

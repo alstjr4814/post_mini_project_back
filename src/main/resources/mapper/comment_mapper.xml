@@ -9,4 +9,68 @@
         insert into comment_tb
         values (default, #{postId}, #{parentCommentId}, #{parentUserId}, #{userId}, #{content}, now())
     </insert>
+
+    <select id="findAllCommentByPostId" resultType="CustomComment">
+        with recursive comment_cte as (
+            select
+                comment_id,
+                post_id,
+                parent_comment_id,
+                parent_user_id,
+                user_id,
+                content,
+                created_at,
+                0 as level,
+                cast(lpad(comment_id, 5, '0')as char(1000)) as path
+        from
+            comment_tb
+        where
+            post_id = #{postId}
+            and parent_comment_id = 0
+
+        union all
+
+        select
+            ct.comment_id,
+            ct.post_id,
+            ct.parent_comment_id,
+            ct.parent_user_id,
+            ct.user_id,
+            ct.content,
+            ct.created_at,
+            cc.level + 1,
+            cast(concat(cc.path, ',', lpad(ct.comment_id, 5, '0'))as char(1000)) as path
+        from
+            comment_tb ct
+            join comment_cte cc on(cc.comment_id = ct.parent_comment_id)
+        where
+            ct.post_id = #{postId}
+        )
+
+        select
+            dense_rank() over(order by substr(cc.path, 1, 5)) as order_number,
+            cc.comment_id,
+            cc.post_id,
+            cc.parent_comment_id,
+            cc.parent_user_id,
+            cc.user_id,
+            cc.content,
+            cc.created_at,
+            cc.level,
+            cc.path,
+
+            put.user_id as parentCommentId,
+            put.nickname as parentNickname,
+
+            ut.user_id,
+            ut.nickname,
+            ut.img_url
+        from
+            comment_cte cc
+            left outer join user_tb put on(put.user_id = cc.parent_user_id)
+            left outer join user_tb ut on(ut.user_id = cc.user_id)
+        order by
+            order_number desc,
+            path;
+    </select>
 </mapper>
