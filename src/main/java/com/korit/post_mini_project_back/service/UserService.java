@@ -16,7 +16,7 @@ public class UserService {
 
     private final UserMapper userMapper;
 
-    public User finduserByOauth2Id(String oauth2Id) {
+    public User findUserByOauth2Id(String oauth2Id) {
         return userMapper.findByOauth2Id(oauth2Id);
     }
 
@@ -26,15 +26,14 @@ public class UserService {
         user.setNickname(createNickname());
         userMapper.insert(user);
         return user;
-//        userMapper.findByOauth2Id()
     }
 
     public String createNickname() {
         String newNickname = null;
         while (true) {
-         newNickname = userMapper.createNickname();
-         if (userMapper.findByNickname(newNickname)==null) {
-             break;
+            newNickname = userMapper.createNickname();
+            if (userMapper.findByNickname(newNickname) == null) {
+                break;
             }
         }
         return newNickname;

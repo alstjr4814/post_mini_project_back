@@ -10,15 +10,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
- 
+
     @Bean
     public OpenAPI openAPIConfig() {
-            OpenAPI openAPI = new OpenAPI();
+        OpenAPI openAPI = new OpenAPI();
 
-            Info info = new Info();
-            info.title("소셜 게시판 미니 프로젝트");
-            info.version("1.0");
-            info.description("JWT 인증 적용을 위한 설정중.");
+        Info info = new Info();
+        info.title("소셜 게시판 미니 프로젝트");
+        info.version("1.0");
+        info.description("소셜 게시판 미니 프로젝트");
 
         SecurityRequirement securityRequirement = new SecurityRequirement();
         securityRequirement.addList("Bearer Authentication");
@@ -38,5 +38,3 @@ public class OpenApiConfig {
                 .components(components);
     }
 }
-
-//OpenAPI openAPIConfig() 해당 클래스에 swagger 상표랑 잠금표시도 설정 할 수 있음.

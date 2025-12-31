@@ -20,15 +20,25 @@ public class CommentService {
         User user = PrincipalUser.getAuthenticatedPrincipalUser().getUser();
 
         commentMapper.insert(Comment.builder()
-                        .postId(postId)
-                        .parentCommentId(dto.getParentCommentId())
-                        .parentUserId(dto.getParentUserId())
-                        .userId(user.getUserId())
-                        .content(dto.getContent())
-                        .build());
+                .postId(postId)
+                .parentCommentId(dto.getParentCommentId())
+                .parentUserId(dto.getParentUserId())
+                .userId(user.getUserId())
+                .content(dto.getContent())
+                .build());
     }
 
     public List<CustomComment> getComments(int postId) {
         return commentMapper.findAllCommentByPostId(postId);
     }
 }
+
+
+
+
+
+
+
+
+
+

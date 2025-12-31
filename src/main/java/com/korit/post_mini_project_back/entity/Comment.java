@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,5 +18,5 @@ public class Comment {
     private int parentUserId;
     private int userId;
     private String content;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 }

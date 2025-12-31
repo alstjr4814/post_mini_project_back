@@ -23,8 +23,7 @@ public class CustomComment {
     private int parentUserId;
     private String parentNickname;
 
-
-    private int userid;
+    private int userId;
     private String nickname;
     private String imgUrl;
 }

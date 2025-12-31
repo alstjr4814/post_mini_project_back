@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.korit.post_mini_project_back.mapper.PostMapper">
     <resultMap id="postResultMap" type="Post">
@@ -38,80 +38,80 @@
         with
         temp_post_tb as
         (select
-        pt.post_id,
-        pt.content,
-        pt.visibility,
-        pt.user_id as pt_user_id,
-        pt.created_at,
+            pt.post_id,
+            pt.content,
+            pt.visibility,
+            pt.user_id as pt_user_id,
+            pt.created_at,
 
-        ut.user_id,
-        ut.nickname,
-        ut.img_url,
+            ut.user_id,
+            ut.nickname,
+            ut.img_url,
 
-        ft.follow_id,
-        ft.follower_id,
-        ft.following_id
+            ft.follow_id,
+            ft.follower_id,
+            ft.following_id
         from
-        post_tb pt
-        left outer join user_tb ut on ut.user_id = pt.user_id
-        left outer join follow_tb ft on ft.following_id = pt.user_id and not ft.following_id = #{userId}
+            post_tb pt
+            left outer join user_tb ut on ut.user_id = pt.user_id
+            left outer join follow_tb ft on ft.following_id = pt.user_id and not ft.following_id = #{userId}
         where
-        ft.follower_id = #{userId}
-        or pt.user_id = #{userId}
+            ft.follower_id = #{userId}
+            or pt.user_id = #{userId}
         order by
-        pt.created_at desc
+            pt.created_at desc
         limit #{startIndex}, #{size}),
 
         temp_post_tb2 as
         (select
-        pt.post_id,
-        pt.content,
-        pt.visibility,
-        pt.user_id as pt_user_id,
-        pt.created_at,
+            pt.post_id,
+            pt.content,
+            pt.visibility,
+            pt.user_id as pt_user_id,
+            pt.created_at,
 
-        ut.user_id,
-        ut.nickname,
-        ut.img_url,
+            ut.user_id,
+            ut.nickname,
+            ut.img_url,
 
-        ft.follow_id,
-        ft.follower_id,
-        ft.following_id
+            ft.follow_id,
+            ft.follower_id,
+            ft.following_id
         from
-        post_tb pt
-        left outer join user_tb ut on ut.user_id = pt.user_id
-        left outer join follow_tb ft on ft.following_id = pt.user_id and ft.follower_id = #{userId}
+            post_tb pt
+            left outer join user_tb ut on ut.user_id = pt.user_id
+            left outer join follow_tb ft on ft.following_id = pt.user_id and ft.follower_id = #{userId}
         where
-        ft.follower_id is null
-        and pt.visibility = 'Public'
+            ft.follower_id is null
+            and pt.visibility = 'Public'
         order by
-        rand(),
-        created_at desc
+            rand(),
+            created_at desc
         limit 0, 2)
 
         select
-        *
+            *
         from
-        temp_post_tb tpt
-        left outer join image_file_tb ift on ift.reference_id = tpt.post_id and ift.category = 'post'
+            temp_post_tb tpt
+            left outer join image_file_tb ift on ift.reference_id = tpt.post_id and ift.category = 'post'
 
         union
 
         select
-        *
+            *
         from
-        temp_post_tb2 tpt2
-        left outer join image_file_tb ift on ift.reference_id = tpt2.post_id and ift.category = 'post'
+            temp_post_tb2 tpt2
+            left outer join image_file_tb ift on ift.reference_id = tpt2.post_id and ift.category = 'post'
         order by
-        5 desc
+            5 desc
     </select>
     <select id="getTotalCount" resultType="java.lang.Integer">
         select
-        count(*)
+            count(*)
         from
-        post_tb pt
-        left outer join follow_tb ft on ft.following_id = pt.user_id
+            post_tb pt
+            left outer join follow_tb ft on ft.following_id = pt.user_id
         where
-        ft.follower_id = #{userId}
+            ft.follower_id = #{userId}
     </select>
 </mapper>

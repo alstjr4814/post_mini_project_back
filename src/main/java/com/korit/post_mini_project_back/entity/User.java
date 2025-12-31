@@ -22,5 +22,4 @@ public class User {
     private String imgUrl;
     private String imgFilePath;
     private LocalDateTime createdAt;
-
 }

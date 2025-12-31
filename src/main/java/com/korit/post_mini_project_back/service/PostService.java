@@ -41,7 +41,7 @@ public class PostService {
         User user = PrincipalUser.getAuthenticatedPrincipalUser().getUser();
         List<Post> feeds = postMapper.getFeeds(startIndex, size, user.getUserId());
         int totalElements = postMapper.getTotalCount(user.getUserId());
-        int totalPages = (int) Math.ceil(((double)totalElements) / size);
+        int totalPages = (int) Math.ceil(((double) totalElements) / size);
         return PaginationRespDto.<Post> builder()
                 .contents(feeds)
                 .currentPage(dto.getCurrentPage())
@@ -52,3 +52,12 @@ public class PostService {
                 .build();
     }
 }
+
+
+
+
+
+
+
+
+

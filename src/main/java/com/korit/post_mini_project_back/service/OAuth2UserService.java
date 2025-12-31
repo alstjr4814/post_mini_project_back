@@ -1,6 +1,5 @@
 package com.korit.post_mini_project_back.service;
 
-
 import com.korit.post_mini_project_back.entity.User;
 import com.korit.post_mini_project_back.security.PrincipalUser;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,17 +23,15 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String clientName = userRequest.getClientRegistration().getClientName();
 
-
-        Collection <? extends GrantedAuthority> authorities = oAuth2User.getAuthorities();
-        Map<String,Object> attributes = new LinkedHashMap<>();
-        String nameAttributekey = null;
+        Collection<? extends GrantedAuthority> authorities = oAuth2User.getAuthorities();
+        Map<String, Object> attributes = new LinkedHashMap<>();
+        String nameAttributeKey = null;
         User user = null;
 
-
-        if ("NAVER".equalsIgnoreCase(clientName)){
+        if ("NAVER".equalsIgnoreCase(clientName)) {
             Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("response");
             attributes.putAll(response);
-            nameAttributekey= "id";
+            nameAttributeKey = "id";
             user = User.builder()
                     .oauth2Id((String) response.get("id"))
                     .name((String) response.get("name"))
@@ -45,6 +42,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                     .build();
         }
 
-        return new PrincipalUser(authorities,attributes,nameAttributekey, user);
+
+        return new PrincipalUser(authorities, attributes, nameAttributeKey, user);
     }
 }

@@ -2,6 +2,7 @@ package com.korit.post_mini_project_back.controller;
 
 import com.korit.post_mini_project_back.entity.User;
 import com.korit.post_mini_project_back.security.PrincipalUser;
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,13 @@ public class UserController {
     public ResponseEntity<User> getMe(@AuthenticationPrincipal PrincipalUser principalUser) {
         return ResponseEntity.ok(principalUser.getUser());
     }
-
-
-
 }
+
+
+
+
+
+
+
+
+

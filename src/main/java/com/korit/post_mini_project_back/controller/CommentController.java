@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/posts/{postId}/comments")
 @RequiredArgsConstructor
-
 public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<?> createComments(@PathVariable int postId, @RequestBody CreatePostCommentReqDto dto){
+    public ResponseEntity<?> createComments(@PathVariable int postId, @RequestBody CreatePostCommentReqDto dto) {
         commentService.createComment(postId, dto);
         return ResponseEntity.ok("댓글 작성 완료");
     }
@@ -24,3 +23,10 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getComments(postId));
     }
 }
+
+
+
+
+
+
+
